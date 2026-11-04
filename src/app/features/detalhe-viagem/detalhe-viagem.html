@@ -1,0 +1,36 @@
+@if (viagem$ | async; as viagem) {
+<article class="detalhe">
+  <a class="voltar" routerLink="/viagens"><span>←</span> Voltar para viagens</a>
+  <section class="apresentacao">
+    <div [class]="viagem.favorita ? 'capa dourado' : 'capa azul'" aria-hidden="true">
+      <span>{{ viagem.favorita ? '★' : '✈' }}</span><small>Raxadinha</small>
+    </div>
+    <div class="informacoes">
+      <span class="categoria">{{ viagem.pais }}</span>
+      <h1>{{ viagem.cidade }}</h1>
+      <div class="metadados">
+        <div><span>Data</span><strong>{{ viagem.dataViagem | date:'dd/MM/yyyy' }}</strong></div>
+        <div><span>Transporte</span><strong>{{ viagem.meioTransporte }}</strong></div>
+        <div><span>Avaliação</span><strong>{{ viagem.avaliacao }}/5</strong></div>
+      </div>
+      @if (viagem.favorita) {
+      <p class="observacao">★ Viagem favorita</p>
+      }
+    </div>
+  </section>
+  <section class="descricao">
+    <div class="texto">
+      <span class="rotulo">Relato da viagem</span>
+      <h2>{{ viagem.cidade }} – {{ viagem.pais }}</h2>
+      <p>{{ viagem.relato }}</p>
+    </div>
+  </section>
+</article>
+} @else {
+<section class="nao-encontrado">
+  <span>404</span>
+  <h1>Viagem não encontrada</h1>
+  <p>O item pode não existir ou ter sido removido da lista.</p>
+  <a routerLink="/viagens">Ver todas as viagens</a>
+</section>
+}
