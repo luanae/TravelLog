@@ -40,6 +40,26 @@ export class ViagensService {
     );
   }
 
+  create(viagem: Omit<Viagem, "id">): Observable<Viagem> {
+    return this.http.post < {name: string}> 
+      (this.apiUrl + this.sufix, viagem).pipe(
+        map((response) => ({
+          id: response.name,
+          ...viagem,
+      })),
+    );
+  }    
+
+  update(id: string, viagem: Omit<Viagem, "id">): Observable<Viagem> {
+    return this.http.put <Omit<Viagem, "id">> 
+      (`${this.apiUrl}/${id}${this.sufix}`, viagem).pipe(
+        map((response) => ({
+          id,
+          ...viagem,
+      })),
+    );
+  }   
+
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}${this.sufix}`);
   }
