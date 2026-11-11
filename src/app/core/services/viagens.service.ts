@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { map, Observable, of } from "rxjs";
+import { map, Observable } from "rxjs";
 import { Viagem } from "../models/viagem.model";
 import { HttpClient } from "@angular/common/http";
 
@@ -12,70 +12,48 @@ export class ViagensService {
   private sufix = ".json";
 
   getAll(): Observable<Viagem[]> {
-    return this.http.get<Record<string, FirebaseViagem> | null >(this.apiUrl + this.sufix).
-    pipe(
-      map((response) => {
-        if (!response) {
-          return [];
-        }
-        return Object.entries(response).map(([id, viagem]) => {
-          const {id: _ignoredId, ...viagemData } = viagem;
-          return { id, ...viagemData } as Viagem;
-        });
-      })
-    );
+    return this.http
+      .get<Record<string, FirebaseViagem> | null>(this.apiUrl + this.sufix)
+      .pipe(
+        map((response) => {
+          if (!response) {
+            return [];
+          }
+          return Object.entries(response).map(([id, viagem]) => {
+            const { id: _ignoredId, ...viagemData } = viagem;
+            return { id, ...viagemData } as Viagem;
+          });
+        }),
+      );
   }
 
   getById(id: string): Observable<Viagem> {
     return this.http
-    .get<FirebaseViagem | null>(`${this.apiUrl}/${id}${this.sufix}`)
-    .pipe(
-      map((response) => {
-        if (!response) {
-          throw new Error(`Viagem não encontrada!`);
-        }
-        const { id: _ignoredId, ...viagemData } = response;
-        return { id, ...viagemData };
-      }),
-    );
+      .get<FirebaseViagem | null>(`${this.apiUrl}/${id}${this.sufix}`)
+      .pipe(
+        map((response) => {
+          if (!response) {
+            throw new Error("Viagem não encontrada!");
+          }
+          const { id: _ignoredId, ...viagemData } = response;
+          return { id, ...viagemData };
+        }),
+      );
   }
 
   create(viagem: Omit<Viagem, "id">): Observable<Viagem> {
-    return this.http.post < {name: string}> 
-      (this.apiUrl + this.sufix, viagem).pipe(
-        map((response) => ({
-          id: response.name,
-          ...viagem,
-      })),
-    );
-  }    
+    return this.http
+      .post<{ name: string }>(this.apiUrl + this.sufix, viagem)
+      .pipe(map((response) => ({ id: response.name, ...viagem })));
+  }
 
   update(id: string, viagem: Omit<Viagem, "id">): Observable<Viagem> {
-    return this.http.put <Omit<Viagem, "id">> 
-      (`${this.apiUrl}/${id}${this.sufix}`, viagem).pipe(
-        map((response) => ({
-          id,
-          ...viagem,
-      })),
-    );
-  }   
+    return this.http
+      .put<Omit<Viagem, "id">>(`${this.apiUrl}/${id}${this.sufix}`, viagem)
+      .pipe(map(() => ({ id, ...viagem })));
+  }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}${this.sufix}`);
-  }
-
-  private readonly viagensDemonstracao: Viagem[] = [
-    
-  ];
-
-  listar(): Observable<Viagem[]> {
-    // Quando a API estiver disponível, substitua o `of` por:
-    // return this.http.get<Viagem[]>('URL_DA_API/viagens');
-    return of(this.viagensDemonstracao);
-  }
-
-  buscarPorId(id: number): Observable<Viagem | undefined> {
-    // Com a API: return this.http.get<Viagem>(`URL_DA_API/viagens/${id}`);
-    return of(this.viagensDemonstracao.find((viagem) => viagem.id === id));
   }
 }

@@ -2,7 +2,7 @@
     <div class="top-bar">
         <h2>Lista de Viagens</h2>
         <a routerLink="/admin/form" class="btn">Adicionar Viagem</a>
-    </div>    
+    </div>
     @if(sucessMessage) {
     <div class="success-message">
         {{ sucessMessage }}
@@ -13,28 +13,28 @@
         {{ errorMessage }}
     </div>
     }
-    @if(loading) {
-    <div class="loading">   
+    @if(loading()) {
+    <div class="loading">
         <p>Carregando viagens...</p>
-    </div>     
+    </div>
     }
-    @if(!loading && viagens.length === 0) {
+    @if(!loading() && viagens().length === 0) {
     <div class="empty-state">
         <p>Nenhuma viagem cadastrada.</p>
     </div>
     }
 
     <div class="viagem-grid">
-        @for(viagem of viagens; track viagem.id) {
+        @for(viagem of viagens(); track viagem.id) {
         <div class="viagem-item">
-            <h3> {{ viagem.titulo }} </h3>
-            <p> {{ viagem.descricao }} </p>
-            <p> {{ viagem.preco}}</p>
+            <h3> {{ viagem.cidade }} – {{ viagem.pais }} </h3>
+            <p> {{ viagem.dataViagem | date:'dd/MM/yyyy' }} · {{ viagem.meioTransporte }} </p>
+            <p> Avaliação: {{ viagem.avaliacao }}/5 @if (viagem.favorita) { ★ } </p>
             <div class="actions">
                 <button type="button" class="btn-edit" (click)="edit(viagem.id)">Editar</button>
                 <button type="button" class="btn-delete" (click)="remove(viagem.id)">Excluir</button>
             </div>
-        </div>    
+        </div>
         }
     </div>
-</section>   
+</section>

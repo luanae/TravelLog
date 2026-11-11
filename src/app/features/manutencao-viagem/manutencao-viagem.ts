@@ -26,10 +26,10 @@ export class ManutencaoViagem {
     cidade: ['', [Validators.required, Validators.minLength(3)]],
     pais: ['', [Validators.required]],
     dataViagem: ['', [Validators.required]],
-    avaliacao: ['', [Validators.required]],
+    avaliacao: [0, [Validators.required]],
     relato: ['', [Validators.required]],
     meioTransporte: ['', [Validators.required]],
-    favorita: [],
+    favorita: [false],
   });
 
   ngOnInit(): void {
@@ -44,8 +44,8 @@ export class ManutencaoViagem {
     this.viagemService.getById(id).subscribe({
       next: (viagem) => {
         this.form.patchValue({
-          titulo: viagem.cidade,
-          descricao: viagem.pais,
+          cidade: viagem.cidade,
+          pais: viagem.pais,
           dataViagem: viagem.dataViagem,
           avaliacao: viagem.avaliacao,
           relato: viagem.relato,
@@ -79,6 +79,37 @@ export class ManutencaoViagem {
         meioTransporte: formValue.meioTransporte,
         favorita: formValue.favorita || false,
       };
-      if (this.editingId !== null) {}
+
+      if (this.editingId !== null) {
+        this.viagemService.update(this.editingId, viagemData).subscribe({
+        next: () => {
+          this.loading = false;
+          this.sucessMessage = "Viagem atualizada com sucesso!";
+          setTimeout(() => {
+            this.router.navigate(["/admin"]);
+          }, 1000);
+        },
+        error: () => {
+          this.loading = false;
+          this.errorMessage = "Erro ao atualizar viagem";
+        },
+      });
+      return;
+      }
+
+      this.viagemService.create(viagemData).subscribe({
+        next: () => {
+          this.loading = false;
+          this.sucessMessage = "Viagem criada com sucesso!";
+          this.form.reset();
+          setTimeout(() => {
+            this.router.navigate(["/admin"]);
+          }, 1000);
+        },
+        error: () => {
+          this.loading = false;
+          this.errorMessage = "Erro ao criar viagem";
+        },
+      });
   }  
 }

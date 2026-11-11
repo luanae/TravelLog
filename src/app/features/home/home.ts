@@ -15,7 +15,7 @@ export class Home {
 
   constructor(viagensService: ViagensService) {
     this.viagensDestaque$ = viagensService
-      .listar()
+      .getAll()
       .pipe(map((viagens) => viagens.slice(0, 10)));
   }
 
