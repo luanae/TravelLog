@@ -1,77 +1,132 @@
-/* Formulário de manutenção de conteúdo.  */
-.form-box {
-    max-width: 760px;
-    margin: 2rem auto;
-    padding: 2rem;
+:host {
+    display: block;
 }
 
-form,
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.form-box {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.voltar {
+    display: inline-flex;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 8px;
+    color: var(--texto-suave);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.voltar:hover {
+    color: var(--coral);
+}
+
+.form-cabecalho {
+    margin-bottom: 28px;
+}
+
+.form-cabecalho h1 {
+    margin: 6px 0 8px;
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+}
+
+.form-cabecalho p {
+    margin: 0;
+    color: var(--texto-suave);
 }
 
 form {
-    gap: 1.25rem;
+    padding: clamp(22px, 4vw, 40px);
+    border: 1px solid var(--linha);
+    border-top: 6px solid var(--coral);
+    border-radius: 24px;
+    background: var(--papel);
+    box-shadow: var(--sombra);
 }
 
-input,
-textarea,
-button {
-    font: inherit;
+fieldset {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 0 28px;
+    padding: 0 0 28px;
+    gap: 18px 20px;
+    border: 0;
+    border-bottom: 1.5px dashed var(--linha);
+}
+
+legend {
+    margin-bottom: 16px;
+    padding: 0;
+    color: var(--oceano-escuro);
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-largo {
+    grid-column: 1 / -1;
+}
+
+label {
+    color: var(--oceano-escuro);
+    font-size: .9rem;
+    font-weight: 700;
 }
 
 input,
 textarea {
-    padding: 0.75rem;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--linha);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--texto);
+    font: 1rem/1.5 var(--fonte-texto);
+    transition: border-color .2s, box-shadow .2s;
 }
 
 textarea {
     resize: vertical;
 }
 
+input:focus,
+textarea:focus {
+    border-color: var(--oceano);
+    outline: none;
+    box-shadow: 0 0 0 4px rgb(14 74 90 / 15%);
+}
+
+input.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid {
+    border-color: var(--erro);
+}
+
 .character-count {
-    font-size: 0.8rem;
-    color: #666;
+    align-self: flex-end;
+    color: var(--texto-suave);
+    font-size: .78rem;
 }
 
-.field small,
-.error-message {
-    color: #b42318;
+.field small {
+    color: var(--erro);
+    font-size: .85rem;
+    font-weight: 600;
 }
 
-.success-message {
-    color: #067647;
+button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.02rem;
 }
 
-.beneficios {
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
-
-.beneficio-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.5rem;
-}
-
-.checkbox-field {
-    flex-direction: row;
-    align-items: center;
-}
-
-.checkbox-field input {
-    width: auto;
-}
-
-button {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-}
-
-.add-button,
-.remove-button {
-    align-self: flex-start;
+@media (max-width: 600px) {
+    fieldset {
+        grid-template-columns: 1fr;
+    }
 }

@@ -1,15 +1,53 @@
-/* CSS do rodapé: pode ser alterado pelos alunos */
 .rodape {
-    background: #1d2440;
-    color: #fff;
-    text-align: center;
-    padding: 24px 16px;
+    padding: 40px 24px 24px;
+    background: var(--oceano-escuro);
+    color: #cfe3e7;
+}
+
+.rodape-conteudo {
+    display: flex;
+    max-width: 1240px;
+    margin: 0 auto 28px;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .rodape p {
-    margin: 0 0 8px;
+    max-width: 46ch;
+    margin: 0;
+}
+
+.rodape .rodape-marca {
+    margin-bottom: 8px;
+    color: #fff;
+    font-family: var(--fonte-titulo);
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.rodape-marca em {
+    color: var(--sol);
+}
+
+.rodape-assinatura span {
+    display: inline-block;
+    color: var(--coral);
+    transform: rotate(45deg);
 }
 
 .rodape small {
-    color: #c5cbe0;
+    display: block;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-top: 18px;
+    border-top: 1px solid rgb(255 255 255 / 12%);
+    color: #8fb3ba;
+}
+
+@media (max-width: 600px) {
+    .rodape {
+        padding: 32px 16px 20px;
+    }
 }

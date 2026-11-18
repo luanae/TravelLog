@@ -1,15 +1,20 @@
-<section class="list-box">
-    <div class="top-bar">
-        <h2>Lista de Viagens</h2>
-        <a routerLink="/admin/form" class="btn">Adicionar Viagem</a>
+<section class="painel">
+    <div class="cabecalho-pagina top-bar">
+        <div>
+            <span class="etiqueta">Painel</span>
+            <h1>Gerenciar viagens</h1>
+            <p>Cadastre novos destinos, atualize relatos ou remova viagens do seu diário.</p>
+        </div>
+        <a routerLink="/admin/form" class="botao botao-primario">Nova viagem</a>
     </div>
-    @if(sucessMessage) {
-    <div class="success-message">
+
+     @if(sucessMessage) {
+    <div class="mensagem mensagem-sucesso">
         {{ sucessMessage }}
     </div>
     }
     @if(errorMessage) {
-    <div class="error-message">
+    <div class="mensagem mensagem-erro">
         {{ errorMessage }}
     </div>
     }
@@ -24,17 +29,21 @@
     </div>
     }
 
-    <div class="viagem-grid">
+    <div class="viagem-lista">
         @for(viagem of viagens(); track viagem.id) {
-        <div class="viagem-item">
-            <h3> {{ viagem.cidade }} – {{ viagem.pais }} </h3>
-            <p> {{ viagem.dataViagem | date:'dd/MM/yyyy' }} · {{ viagem.meioTransporte }} </p>
-            <p> Avaliação: {{ viagem.avaliacao }}/5 @if (viagem.favorita) { ★ } </p>
+        <article class="viagem-item" [class.favorita]="viagem.favorita">
+            <div class="viagem-icone" aria-hidden="true">{{ viagem.favorita ? '★' : '✈' }}</div>
+            <div class="viagem-info">
+                <h3>{{ viagem.cidade }} <span>– {{ viagem.pais }}</span></h3>
+                <p>{{ viagem.dataViagem | date:'dd/MM/yyyy' }} · {{ viagem.meioTransporte }}</p>
+            </div>
+            <span class="estrelas" [style.--nota]="viagem.avaliacao"
+                [attr.aria-label]="'Avaliação: ' + viagem.avaliacao + ' de 5'">★★★★★</span>
             <div class="actions">
                 <button type="button" class="btn-edit" (click)="edit(viagem.id)">Editar</button>
                 <button type="button" class="btn-delete" (click)="remove(viagem.id)">Excluir</button>
             </div>
-        </div>
+        </article>
         }
     </div>
 </section>

@@ -1,23 +1,42 @@
 @if (viagem$ | async; as viagem) {
 <article class="detalhe">
   <a class="voltar" routerLink="/viagens"><span>←</span> Voltar para viagens</a>
-  <section class="apresentacao">
+  <section class="cartao-embarque">
     <div [class]="viagem.favorita ? 'capa dourado' : 'capa azul'" aria-hidden="true">
-      <span>{{ viagem.favorita ? '★' : '✈' }}</span><small>Raxadinha</small>
+      <svg class="paisagem" viewBox="0 0 320 120" preserveAspectRatio="none">
+        <path class="montanha-fundo" d="M0 120 L0 70 L55 30 L105 72 L165 22 L230 80 L280 50 L320 72 L320 120 Z" />
+        <path class="montanha-frente" d="M0 120 L0 95 L70 62 L130 100 L200 66 L265 104 L320 84 L320 120 Z" />
+      </svg>
+      <span class="selo">{{ viagem.favorita ? '★' : '✈' }}</span>
+      <small>TravelLog</small>
     </div>
+
     <div class="informacoes">
-      <span class="categoria">{{ viagem.pais }}</span>
+      <div class="topo-embarque">
+        <span class="etiqueta">Cartão de embarque</span>
+        <span class="companhia">Travel<em>Log</em></span>
+      </div>
+
+      <span class="rotulo-campo">Destino</span>
       <h1>{{ viagem.cidade }}</h1>
+      <span class="categoria">📍 {{ viagem.pais }}</span>
+
       <div class="metadados">
         <div><span>Data</span><strong>{{ viagem.dataViagem | date:'dd/MM/yyyy' }}</strong></div>
         <div><span>Transporte</span><strong>{{ viagem.meioTransporte }}</strong></div>
-        <div><span>Avaliação</span><strong>{{ viagem.avaliacao }}/5</strong></div>
+        <div>
+          <span>Avaliação</span>
+          <strong class="estrelas" [style.--nota]="viagem.avaliacao"
+            [attr.aria-label]="viagem.avaliacao + ' de 5'">★★★★★</strong>
+        </div>
       </div>
+
       @if (viagem.favorita) {
       <p class="observacao">★ Viagem favorita</p>
       }
     </div>
   </section>
+  
   <section class="descricao">
     <div class="texto">
       <span class="rotulo">Relato da viagem</span>

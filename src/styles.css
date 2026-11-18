@@ -1,3 +1,23 @@
+:root {
+  --oceano: #0e4a5a;
+  --oceano-escuro: #082f3a;
+  --oceano-claro: #dcedef;
+  --coral: #e8664a;
+  --coral-escuro: #c94f35;
+  --sol: #f3b23d;
+  --areia: #f6f0e6;
+  --papel: #fffcf6;
+  --linha: #e4d9c6;
+  --texto: #1d2b30;
+  --texto-suave: #5b6b70;
+  --sucesso: #2f8f6b;
+  --erro: #c2412d;
+  --raio: 20px;
+  --sombra: 0 14px 34px rgb(8 47 58 / 10%);
+  --fonte-titulo: "Fraunces", Georgia, "Times New Roman", serif;
+  --fonte-texto: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,11 +30,312 @@ body {
 
 body {
   min-height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--areia);
+  color: var(--texto);
+  font-family: var(--fonte-texto);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--oceano-escuro);
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--oceano);
+}
+
+:focus-visible {
+  outline: 3px solid var(--sol);
+  outline-offset: 3px;
 }
 
 app-root {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+}
+
+/* ---------- Elementos reutilizados nas páginas ---------- */
+.etiqueta {
+  display: inline-block;
+  color: var(--coral);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font: 700 .95rem/1 var(--fonte-texto);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s, background .2s, box-shadow .2s;
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+}
+
+.botao:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.botao-primario {
+  background: var(--coral);
+  color: #fff;
+  box-shadow: 0 10px 24px rgb(232 102 74 / 30%);
+}
+
+.botao-primario:hover {
+  background: var(--coral-escuro);
+}
+
+.botao-secundario {
+  border-color: currentColor;
+  background: transparent;
+  color: var(--oceano-escuro);
+}
+
+.cabecalho-pagina {
+  margin-bottom: 32px;
+}
+
+.cabecalho-pagina h1 {
+  margin: 6px 0 10px;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+}
+
+.cabecalho-pagina p {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 1.05rem;
+}
+
+.mensagem {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-left: 5px solid;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.mensagem-sucesso {
+  border-color: var(--sucesso);
+  background: #e3f3ec;
+  color: var(--sucesso);
+}
+
+.mensagem-erro {
+  border-color: var(--erro);
+  background: #fbe7e2;
+  color: var(--erro);
+}
+
+.mensagem-info {
+  border-color: var(--oceano);
+  background: var(--oceano-claro);
+  color: var(--oceano);
+}
+
+.estado-vazio {
+  padding: 48px 24px;
+  border: 2px dashed var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel);
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+.estado-vazio span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 2.4rem;
+}
+
+.estado-vazio p {
+  margin: 0;
+}
+
+/* Estrelas da avaliação (a nota vem em --nota, de 0 a 5) */
+.estrelas {
+  --porcentagem: calc(var(--nota, 0) / 5 * 100%);
+  display: inline-block;
+  background: linear-gradient(90deg, var(--sol) var(--porcentagem), #d9ceba var(--porcentagem));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+}
+
+/* ---------- Cartão-postal (Home e Minhas viagens) ---------- */
+.postal {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--papel);
+  box-shadow: var(--sombra);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.postal:hover {
+  box-shadow: 0 22px 44px rgb(8 47 58 / 16%);
+  transform: translateY(-6px) rotate(-.4deg);
+}
+
+.capa {
+  position: relative;
+  min-height: 190px;
+  overflow: hidden;
+}
+
+.capa.azul {
+  background: linear-gradient(180deg, #7fc8d6 0%, #cdeef0 70%);
+}
+
+.capa.dourado {
+  background: linear-gradient(180deg, #f08a5d 0%, #f7c873 70%);
+}
+
+/* sol */
+.capa::before {
+  position: absolute;
+  top: 26%;
+  left: 18%;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #fff6d8;
+  box-shadow: 0 0 0 10px rgb(255 246 216 / 25%);
+  content: "";
+}
+
+.capa.dourado::before {
+  background: #fff1c2;
+}
+
+.paisagem {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+}
+
+.paisagem .montanha-fundo {
+  fill: var(--oceano);
+  opacity: .45;
+}
+
+.paisagem .montanha-frente {
+  fill: var(--oceano-escuro);
+}
+
+.capa.dourado .paisagem .montanha-fundo {
+  fill: #9a3f2c;
+}
+
+.capa.dourado .paisagem .montanha-frente {
+  fill: #5a2419;
+}
+
+/* selo no canto do postal */
+.selo {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 52px;
+  height: 60px;
+  place-items: center;
+  border: 2px dashed var(--coral);
+  border-radius: 6px;
+  background: var(--papel);
+  color: var(--coral);
+  font-size: 1.5rem;
+  transform: rotate(6deg);
+}
+
+.capa.dourado .selo {
+  border-color: var(--sol);
+  color: #c98a12;
+}
+
+/* carimbo */
+.capa small {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  padding: 3px 10px;
+  border: 1.5px solid rgb(255 255 255 / 80%);
+  border-radius: 999px;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.postal-corpo {
+  padding: 20px 22px 22px;
+}
+
+.postal .categoria {
+  color: var(--coral);
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.postal .categoria::before {
+  content: "📍 ";
+}
+
+.postal h3 {
+  margin: 6px 0 14px;
+  font-size: 1.55rem;
+}
+
+.postal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--oceano);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* o link cobre o cartão inteiro */
+.postal a::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.postal a span {
+  transition: transform .2s;
+}
+
+.postal:hover a span {
+  transform: translateX(4px);
 }

@@ -1,3 +1,42 @@
-<h1>Viagens registradas</h1>
-<p>Aqui será implementada a listagem pública das viagens cadastradas.</p>
-<p>Por enquanto, esta página apresenta somente a estrutura inicial.</p>
+
+<section class="viagens" aria-labelledby="titulo-viagens">
+    <header class="cabecalho-pagina">
+        <span class="etiqueta">Diário de bordo</span>
+        <h1 id="titulo-viagens">Minhas viagens</h1>
+    </header>
+
+    @if (errorMessage) {
+    <div class="mensagem mensagem-erro">{{ errorMessage }}</div>
+    }
+
+    @if (loading()) {
+    <div class="estado-vazio">
+        <p>Procurando suas viagens...</p>
+    </div>
+    } @else if (viagens().length === 0 && !errorMessage) {
+    <div class="estado-vazio">
+        <p>Nenhuma viagem registrada ainda. A primeira aventura está esperando por você.</p>
+    </div>
+    }
+
+    <div class="grade-postais">
+        @for (viagem of viagens(); track viagem.id) {
+        <article class="postal">
+            <div [class]="viagem.favorita ? 'capa dourado' : 'capa azul'">
+                <svg class="paisagem" viewBox="0 0 320 120" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="montanha-fundo" d="M0 120 L0 70 L55 30 L105 72 L165 22 L230 80 L280 50 L320 72 L320 120 Z" />
+                    <path class="montanha-frente" d="M0 120 L0 95 L70 62 L130 100 L200 66 L265 104 L320 84 L320 120 Z" />
+                </svg>
+                <span class="selo">{{ viagem.favorita ? '★' : '✈' }}</span>
+                <small>TravelLog</small>
+            </div>
+            <div class="postal-corpo">
+                <span class="categoria">{{ viagem.pais }}</span>
+                <h3>{{ viagem.cidade }}</h3>
+                <a [routerLink]="['/viagens', viagem.id]" [attr.aria-label]="'Conhecer ' + viagem.cidade">Ler o relato
+                    <span>→</span></a>
+            </div>
+        </article>
+        }
+    </div>
+</section>

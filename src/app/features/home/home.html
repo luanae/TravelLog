@@ -1,35 +1,40 @@
 <div class="home">
   <section class="hero">
     <div class="hero-conteudo">
-      <span class="etiqueta">Conteúdo digital sem complicação</span>
-      <h1>Suas ideias merecem <em>ganhar o mundo.</em></h1>
-      <p>O Raxadinha reúne criação, organização e venda de conteúdos digitais em um só lugar — simples para quem publica
-        e agradável para quem compra.</p>
+      <span class="etiqueta">Seu diário de bordo digital</span>
+      <h1>Cada viagem merece <em>ser lembrada.</em></h1>
+      <p>Guarde no TravelLog os destinos por onde você passou, como chegou até lá e o que viveu em cada lugar.
+        Um mapa de memórias que cresce a cada embarque.</p>
       <div class="acoes">
         <a class="botao botao-primario" routerLink="/viagens">Explorar viagens</a>
         <a class="botao botao-secundario" routerLink="/sobre">Conhecer o projeto</a>
       </div>
-      <div class="indicadores" aria-label="Destaques da plataforma">
-        <div><strong>100%</strong><span>digital</span></div>
-        <div><strong>24/7</strong><span>disponível</span></div>
-        <div><strong>∞</strong><span>ideias possíveis</span></div>
-      </div>
+      <ul class="indicadores" aria-label="O que você pode fazer">
+        <li><strong>✈</strong><span>Registre cada destino</span></li>
+        <li><strong>★</strong><span>Avalie a experiência</span></li>
+        <li><strong>♥</strong><span>Guarde as favoritas</span></li>
+      </ul>
     </div>
 
     <div class="hero-visual" aria-hidden="true">
-      <div class="circulo circulo-um"></div>
-      <div class="circulo circulo-dois"></div>
-      <div class="cartao cartao-principal">
-        <span class="icone">✦</span>
-        <small>Conteúdo em destaque</small>
-        <strong>Transforme conhecimento em oportunidade.</strong>
-        <div class="linha"><span></span><span></span></div>
+      <svg class="cena" viewBox="0 0 480 420" preserveAspectRatio="xMidYMax slice">
+        <circle cx="330" cy="140" r="62" fill="#f3b23d" />
+        <circle cx="330" cy="140" r="86" fill="#f3b23d" opacity=".18" />
+        <path d="M40 120 Q 200 20 420 90" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="2 10"
+          stroke-linecap="round" opacity=".7" />
+        <path d="M0 420 L0 300 L90 220 L160 280 L250 190 L340 270 L400 230 L480 280 L480 420 Z" fill="#0e4a5a"
+          opacity=".7" />
+        <path d="M0 420 L0 340 L70 300 L150 350 L230 290 L320 350 L410 310 L480 340 L480 420 Z" fill="#082f3a" />
+        <path d="M0 395 Q 120 375 240 395 T 480 392 L480 420 L0 420 Z" fill="#e8664a" opacity=".9" />
+      </svg>
+      <div class="cartao cartao-embarque">
+        <small>Cartão de embarque</small>
+        <div class="rota"><strong>CASA</strong><span>✈</span><strong>MUNDO</strong></div>
+        <div class="linha"><span>Portão: aberto</span><span>Assento: janela</span></div>
       </div>
-      <div class="cartao cartao-flutuante cartao-vendas"><span>↗</span>
-        <div><strong>Vendas</strong><small>crescendo por aqui</small></div>
-      </div>
-      <div class="cartao cartao-flutuante cartao-criadores"><span>♥</span>
-        <div><strong>Criadores</strong><small>ideias que conectam</small></div>
+      <div class="cartao cartao-carimbo">
+        <span>Passaporte</span>
+        <strong>Carimbado</strong>
       </div>
     </div>
   </section>
@@ -37,9 +42,9 @@
   <section class="vitrine" aria-labelledby="titulo-vitrine">
     <div class="vitrine-cabecalho">
       <div>
-        <span class="etiqueta">Escolhidos para você</span>
+        <span class="etiqueta">Últimos embarques</span>
         <h2 id="titulo-vitrine">Viagens em destaque</h2>
-        <p>Uma amostra do que está esperando para ser descoberto.</p>
+        <p>Um passeio rápido pelos lugares que já ganharam um capítulo no seu diário.</p>
       </div>
       <div class="controles" aria-label="Controles do carrossel">
         <button type="button" aria-label="Ver viagens anteriores" (click)="moverCarrossel(trilho, -1)">←</button>
@@ -49,48 +54,52 @@
 
     <div class="trilho" #trilho tabindex="0" aria-label="Carrossel de viagens em destaque">
       @for (viagem of viagensDestaque$ | async; track viagem.id) {
-      <article class="card-viagem">
+      <article class="postal">
         <div [class]="viagem.favorita ? 'capa dourado' : 'capa azul'">
-          <span>{{ viagem.favorita ? '★' : '✈' }}</span>
-          <small>Raxadinha</small>
+          <svg class="paisagem" viewBox="0 0 320 120" preserveAspectRatio="none" aria-hidden="true">
+            <path class="montanha-fundo" d="M0 120 L0 70 L55 30 L105 72 L165 22 L230 80 L280 50 L320 72 L320 120 Z" />
+            <path class="montanha-frente" d="M0 120 L0 95 L70 62 L130 100 L200 66 L265 104 L320 84 L320 120 Z" />
+          </svg>
+          <span class="selo">{{ viagem.favorita ? '★' : '✈' }}</span>
+          <small>TravelLog</small>
         </div>
-        <div class="card-corpo">
+        <div class="postal-corpo">
           <span class="categoria">{{ viagem.pais }}</span>
           <h3>{{ viagem.cidade }}</h3>
-          <a [routerLink]="['/viagens', viagem.id]" [attr.aria-label]="'Conhecer ' + viagem.cidade">Conhecer
+          <a [routerLink]="['/viagens', viagem.id]" [attr.aria-label]="'Conhecer ' + viagem.cidade">Ler o relato
             <span>→</span></a>
         </div>
       </article>
       }
     </div>
-    <p class="dica-arraste">Arraste para o lado para ver mais viagens</p>
+    <p class="dica-arraste">Arraste para o lado para ver mais destinos</p>
   </section>
 
   <section class="recursos" aria-labelledby="titulo-recursos">
     <div class="cabecalho-secao">
-      <span class="etiqueta">Do começo ao clique</span>
-      <h2 id="titulo-recursos">Tudo o que seu conteúdo precisa</h2>
-      <p>Uma experiência pensada para deixar o trabalho organizado e o caminho do público mais curto.</p>
+       <span class="etiqueta">Como funciona</span>
+      <h2 id="titulo-recursos">Do check-in à última lembrança</h2>
+      <p>Três passos simples para transformar cada viagem em uma história bem guardada.</p>
     </div>
     <div class="grade-recursos">
       <article><span class="numero">01</span>
-        <h3>Organize</h3>
-        <p>Mantenha seus conteúdos reunidos, bem apresentados e fáceis de encontrar.</p>
+        <h3>Registre</h3>
+        <p>Anote cidade, país, data e o meio de transporte de cada viagem.</p>
       </article>
       <article class="destaque"><span class="numero">02</span>
-        <h3>Compartilhe</h3>
-        <p>Apresente suas ideias com clareza e alcance as pessoas certas.</p>
+        <h3>Avalie</h3>
+        <p>Dê uma nota de 1 a 5 e marque as viagens que ficaram no coração.</p>
       </article>
       <article><span class="numero">03</span>
-        <h3>Cresça</h3>
-        <p>Acompanhe sua jornada e transforme conhecimento em novas possibilidades.</p>
+        <h3>Reviva</h3>
+        <p>Volte aos seus relatos quando quiser e relembre cada detalhe do caminho.</p>
       </article>
     </div>
   </section>
 
   <section class="chamada-final">
-    <div><span class="etiqueta">Pronto para começar?</span>
-      <h2>Tem sempre alguma coisa boa esperando para ser descoberta.</h2>
+    <div><span class="etiqueta">Malas prontas?</span>
+      <h2>Sempre tem algum lugar esperando para ser descoberto.</h2>
     </div>
     <a class="botao botao-claro" routerLink="/viagens">Ver viagens <span>→</span></a>
   </section>

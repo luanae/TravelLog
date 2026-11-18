@@ -1,32 +1,36 @@
 <div class="form-box">
-    <h2>
-        @if(editingId !== null){
-            Editar Viagem
-        } @else {
-            Adicionar Viagem
-        }
-    </h2>
+    <a class="voltar" routerLink="/admin"><span>←</span> Voltar para o painel</a>
+     <header class="form-cabecalho">
+        <h1>
+            @if(editingId !== null){
+                Editar viagem
+            } @else {
+                Registrar nova viagem
+            }
+        </h1>
+        <p>Preencha os detalhes do destino.</p>
+    </header>
 
     @if(loadingData) {
-    <div class="info-message">
+    <div class="mensagem mensagem-info">
         Carregando dados da viagem...
     </div>
     }
     @if(sucessMessage) {
-    <div class="success-message">
+    <div class="mensagem mensagem-sucesso">
         {{ sucessMessage }}
     </div>
     }
     @if(errorMessage) {
-    <div class="error-message">
+    <div class="mensagem mensagem-erro">
         {{ errorMessage }}
     </div>
     }
 
     <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="field">
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" formControlName="cidade" />
+            <label for="cidade">Destino:</label>
+            <input type="text" id="cidade" formControlName="cidade" placeholder="Ex.: Lisboa" />
             <span class="character-count">
                 {{ form.controls.cidade.value.length }} caracteres
             </span>
@@ -37,7 +41,7 @@
 
         <div class="field">
             <label for="pais">País:</label>
-            <input type="text" id="pais" formControlName="pais" />
+            <input type="text" id="pais" formControlName="pais" placeholder="Ex.: Portugal" />
             <span class="character-count">
                 {{ form.controls.pais.value.length }} caracteres
             </span>
@@ -46,48 +50,53 @@
             }
         </div>
 
-        <div class="field">
-            <label for="data">Data:</label>
-            <input type="date" id="data" formControlName="dataViagem" />
-            @if (form.controls.dataViagem.touched && form.controls.dataViagem.invalid) {
-                <small>Informe uma data válida</small>
-            }
-        </div>
+        <fieldset>
+            <legend>Detalhes da viagem</legend>
+            <div class="field">
+                <label for="data">Data:</label>
+                <input type="date" id="data" formControlName="dataViagem" />
+                @if (form.controls.dataViagem.touched && form.controls.dataViagem.invalid) {
+                    <small>Informe uma data válida</small>
+                }
+            </div>
 
-        <div class="field">
-            <label for="avaliacao">Avaliação:</label>
-            <input type="number" id="avaliacao" formControlName="avaliacao" />
-            @if (form.controls.avaliacao.touched && form.controls.avaliacao.invalid) {
-                <small>Informe uma avaliação entre 1 e 5</small>
-            }
-        </div>
+            <div class="field">
+                <label for="avaliacao">Avaliação (1 a 5):</label>
+                <input type="number" id="avaliacao" formControlName="avaliacao" />
+                @if (form.controls.avaliacao.touched && form.controls.avaliacao.invalid) {
+                    <small>Informe uma avaliação entre 1 e 5</small>
+                }
+            </div>
 
-        <div class="field">
-            <label for="relato">Relato:</label>
-            <textarea id="relato" formControlName="relato"></textarea>
-            <span class="character-count">
-                {{ form.controls.relato.value.length }} caracteres
-            </span>
-            @if (form.controls.relato.touched && form.controls.relato.invalid) {
-                <small>Informe um relato com no minimo 10 caracteres</small>
-            }
-        </div>
+            <div class="field campo-largo">
+                <label for="meioTransporte">Meio de transporte:</label>
+                <input type="text" id="meioTransporte" formControlName="meioTransporte"
+                    placeholder="Ex.: Avião, ônibus, carro, trem..." />
+                <span class="character-count">
+                    {{ form.controls.meioTransporte.value.length }} caracteres
+                </span>
+                @if (form.controls.meioTransporte.touched && form.controls.meioTransporte.invalid) {
+                    <small>Informe um meio de transporte com no mínimo 3 caracteres</small>
+                }
+            </div>
+        </fieldset>
 
-        <div class="field">
-            <label for="meioTransporte">Meio de Transporte:</label>
-            <input type="text" id="meioTransporte" formControlName="meioTransporte" />
-            <span class="character-count">
-                {{ form.controls.meioTransporte.value.length }} caracteres
-            </span>
+        <fieldset>
+            <legend>Relato</legend>
+            <div class="field campo-largo">
+                <label for="relato">Como foi a viagem? *</label>
+                <textarea id="relato" formControlName="relato" rows="6"
+                    placeholder="Conte o que você viveu, os lugares que visitou e o que mais marcou..."></textarea>
+                <span class="character-count">
+                    {{ form.controls.relato.value.length }} caracteres
+                </span>
+                @if (form.controls.relato.touched && form.controls.relato.invalid) {
+                    <small>Informe um relato com no mínimo 10 caracteres</small>
+                }
+            </div>
+        </fieldset>
 
-            @if (form.controls.meioTransporte.touched && form.controls.meioTransporte.invalid) {
-                <small>Informe um meio de transporte com no minimo 3 caracteres</small>
-            }
-        </div>
-
-
-
-        <button type="submit" [disabled]="loading || loadingData">
+        <button class="botao botao-primario" type="submit" [disabled]="loading || loadingData">
             @if (loading) {
                 Salvando...
             } @else if (editingId !== null) {
